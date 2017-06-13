@@ -19,3 +19,6 @@ tracks 'configure_deploy_user' do
   home_dir node['tracks']['app']['home_directory']
   action :configure
 end
+
+# Configure database.
+include_recipe 'tracks::database'
