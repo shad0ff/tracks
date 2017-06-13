@@ -1,0 +1,15 @@
+{
+  "id": "mysql",
+  "root_password": {
+    "encrypted_data": "w7ntSajp7XLu/jdtj8pAJyM4lbpQFRulyEFkZfhWZ9s=\n",
+    "iv": "PmIAoYA3v9+YNNFPqLIsiQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "tracks_password": {
+    "encrypted_data": "HDquGC29eNrLd1eKD986po88iOG4CB8SN30DFObykTo=\n",
+    "iv": "+3IXR2yjjJBRkaI+JYWQkA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}
