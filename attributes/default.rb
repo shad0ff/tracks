@@ -20,3 +20,6 @@ default['tracks']['app']['version'] = 'v2.3.0'
 # Tracks database attributes.
 default['tracks']['database']['dbname'] = 'tracks'
 default['tracks']['database']['username'] = 'tracks'
+
+# Disable Nginx default site config.
+default['nginx']['default_site_enabled'] = false

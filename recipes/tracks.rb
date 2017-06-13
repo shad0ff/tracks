@@ -4,6 +4,22 @@
 #
 # Copyright:: 2017, Yurii Pyvovarov, All Rights Reserved.
 
+# Configure database.
+include_recipe 'tracks::database'
+
+# Configure Nginx web server
+include_recipe 'chef_nginx'
+# Set Nginx Tracks config.
+nginx_site 'tracks' do
+  action :enable
+  template 'tracks.conf.erb'
+  variables(
+    {
+      deploy_path: "#{node['tracks']['app']['home_directory']}/#{node['tracks']['app']['deploy_directory']}"
+    }
+  )
+end
+
 # Setup user for deploy
 tracks 'setup_deploy_user' do
   user_name node['tracks']['app']['user']
@@ -19,9 +35,6 @@ tracks 'configure_deploy_user' do
   home_dir node['tracks']['app']['home_directory']
   action :configure
 end
-
-# Configure database.
-include_recipe 'tracks::database'
 
 # Get database passwords
 passwords = data_bag_item('passwords', 'mysql')
