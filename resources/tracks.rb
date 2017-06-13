@@ -187,6 +187,17 @@ action :deploy do
         )
       end
     end
+
+    before_restart do
+      current_release = release_path
+
+      # Precompile assets.
+      execute 'bundle exec rake assets:precompile' do
+        environment sys_envs
+        cwd current_release
+        user user_name
+      end
+    end
   end
 end
 
