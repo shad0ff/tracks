@@ -88,14 +88,14 @@ describe port 80 do
   its('addresses') { should include '0.0.0.0' }
 end
 
-# Next two test failed on `kitchen test`.
-# TODO: find out how to set wait timeout
 describe port 3000 do
+  sleep 10
   it { should be_listening }
   its('processes') { should include 'ruby1.9.1' }
   its('addresses') { should include '127.0.0.1' }
 end
 
 describe command 'wget -qSO- --spider localhost' do
+  sleep 10
   its('stderr') { should match %r{HTTP/1\.1 200 OK} }
 end
