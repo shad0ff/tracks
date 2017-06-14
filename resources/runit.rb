@@ -61,9 +61,17 @@ action :setup do
       }
     )
   end
+end
 
+action :enable do
   link "/etc/service/#{user_name}" do
     to "/etc/sv/#{user_name}"
   end
+end
 
+action :disable do
+  link "/etc/service/#{user_name}" do
+    to "/etc/sv/#{user_name}"
+    action :delete
+  end
 end

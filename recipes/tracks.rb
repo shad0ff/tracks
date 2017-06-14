@@ -7,7 +7,7 @@
 # Configure database.
 include_recipe 'tracks::database'
 
-# Configure Nginx web server
+# Configure Nginx web server.
 include_recipe 'chef_nginx'
 # Set Nginx Tracks config.
 nginx_site 'tracks' do
@@ -20,7 +20,7 @@ nginx_site 'tracks' do
   )
 end
 
-# Setup user for deploy
+# Setup user for deploy.
 tracks 'setup_deploy_user' do
   user_name node['tracks']['app']['user']
   home_dir node['tracks']['app']['home_directory']
@@ -29,19 +29,27 @@ tracks 'setup_deploy_user' do
   action :setup
 end
 
-# Configure deploy user env
+# Configure deploy user env.
 tracks 'configure_deploy_user' do
   user_name node['tracks']['app']['user']
   home_dir node['tracks']['app']['home_directory']
   action :configure
 end
 
+# Setup runit to auto start Tracks.
+runit 'demonize_tracks' do
+  user_name node['tracks']['app']['user']
+  home_dir node['tracks']['app']['home_directory']
+  deploy_dir node['tracks']['app']['deploy_directory']
+  action :setup
+end
+
 # Get database passwords
 passwords = data_bag_item('passwords', 'mysql')
-# Get Rails secrets
+# Get Rails secrets.
 secrets = data_bag_item('secrets', 'tracks')
 
-# Deploy Tracks rails application
+# Deploy Tracks rails application.
 tracks 'deploy' do
   user_name node['tracks']['app']['user']
   home_dir node['tracks']['app']['home_directory']
@@ -54,13 +62,5 @@ tracks 'deploy' do
   rais_salt secrets['salt']
   rails_secret_token secrets['secret_token']
   action :deploy
-  notifies :setup, 'runit[demonize_tracks]', :delayed
-end
-
-# Demonize Tracks
-runit 'demonize_tracks' do
-  user_name node['tracks']['app']['user']
-  home_dir node['tracks']['app']['home_directory']
-  deploy_dir node['tracks']['app']['deploy_directory']
-  action :nothing
+  notifies :enable, 'runit[demonize_tracks]', :immediate
 end
