@@ -1,0 +1,4 @@
+#!/bin/bash
+exec 2>&1
+
+exec sudo "PATH=<%= @gem_path %>/bin:$PATH" -H -u <%= @user %> bash -c "cd <%= @deploy_path %>/current/ && bundle exec rails server -e production -b 127.0.0.1"

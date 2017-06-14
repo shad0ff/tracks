@@ -54,4 +54,13 @@ tracks 'deploy' do
   rais_salt secrets['salt']
   rails_secret_token secrets['secret_token']
   action :deploy
+  notifies :setup, 'runit[demonize_tracks]', :delayed
+end
+
+# Demonize Tracks
+runit 'demonize_tracks' do
+  user_name node['tracks']['app']['user']
+  home_dir node['tracks']['app']['home_directory']
+  deploy_dir node['tracks']['app']['deploy_directory']
+  action :nothing
 end

@@ -198,6 +198,9 @@ action :deploy do
         user user_name
       end
     end
+    restart_command "test -e #{deploy_path}/shared/pids/server.pid && \
+                     kill -9 $(cat #{deploy_path}/shared/pids/server.pid) || \
+                     echo 'Not started'"
   end
 end
 

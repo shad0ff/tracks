@@ -1,0 +1,4 @@
+#!/bin/bash
+LOG_FOLDER=<%= @deploy_path %>/shared/log
+mkdir -p $LOG_FOLDER
+exec svlogd -tt $LOG_FOLDER
